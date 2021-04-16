@@ -1,0 +1,75 @@
+﻿@model List<ElectronicWEB.Models.Item>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Blank.cshtml";
+}
+
+<div class="content">
+    <div class="section group">
+        @if (Model.Count > 0)
+        {
+            <table class="table" style="width:1000px;margin-left:300px;">
+                <thead>
+                    <tr>
+                        <td>Tên Sản Phẩm</td>
+                        <td>Ảnh </td>
+                        <td>Số lượng</td>
+                        <td>Đơn giá</td>
+                        <td>Thành tiền</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        double s = 0;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        s = s + (int)item.Product.Gia.Value * item.Quantity;
+                        <tr>
+                            <td>
+                                @item.Product.TenSP
+                            </td>
+                            <td>
+                                <img src="/Content/@item.Product.Photo" width="100" />
+                            </td>
+                            <td>
+                                <input type="text" class="txtQuantity" data-id="@item.Product.MaSP" value="@item.Quantity" />
+                            <td>
+                                @item.Product.Gia.GetValueOrDefault(0).ToString("N0")
+                            </td>
+                            <td>@((item.Product.Gia.GetValueOrDefault(0) * item.Quantity).ToString("N0"))</td>
+                            <td><a href="#" data-id="@item.Product.MaSP" class="btn-delete">Xoá</a></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div style="margin-left:850px;font-size:larger"><h2> Tổng Tiền :   @s.ToString("N0")  VNĐ</h2></div>
+        }
+
+    </div>
+    <div class="billing-details" style="width:600px;margin-left:300px">
+        <div class="section-title">
+            <h3 class="title">Thông Tin Đặt Hàng</h3>
+        </div>
+        @using (Html.BeginForm("Payment", "Cart", FormMethod.Post))
+        {
+            <div class="form-group">
+                Họ Tên<br /> <input class="input" type="text" name="HoTen" placeholder="Họ tên">
+            </div>
+            <div class="form-group">
+                Số Điện Thoại<br /><input class="input" type="text" name="SDT" placeholder="Số Điện thoại">
+            </div>
+            <div class="form-group">
+                Địa Chỉ <br /><input class="input" type="text" name="DiaChi" placeholder="Địa Chỉ">
+            </div>
+            <div class="form-group">
+                Email<br /><input class="input" type="email" name="Email" placeholder="Email">
+            </div>
+            <button type="submit" class="btn">Gửi đơn hàng</button>
+        }
+
+    </div>
+   
+

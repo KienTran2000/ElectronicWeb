@@ -1,0 +1,356 @@
+﻿@model IEnumerable<ElectronicWEB.Models.SANPHAM>
+
+@{
+    var ListNewProduct = (List<ElectronicWEB.Models.SANPHAM>)ViewBag.NewProduct;
+}
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- section title -->
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h3 class="title">Bán Chạy Nhất</h3>
+                    <div class="section-nav">
+                        <ul class="section-tab-nav tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Điện Thoại</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Cameras</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Phụ Kiện</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /section title -->
+            <!-- Products tab & slick -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="products-tabs">
+                        <!-- tab -->
+                        <div id="tab2" class="tab-pane fade in active">
+                            <div class="products-slick" data-nav="#slick-nav-2">
+                                @foreach (var item in ListNewProduct)
+                                {
+                                    <div class="product">
+                                        <div class="product-img">
+                                            <img src="~/Content/@item.Photo" alt="">
+                                            <div class="product-label">
+                                                <span class="sale">@item.TinhTrang</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                            <h3 class="product-name"><a href="#">@item.TenSP</a></h3>
+                                            <h4 class="product-price">@(item.Gia.HasValue ? item.Gia.Value.ToString("N0") : "Liên hệ")</h4>
+                                            <div class="product-rating">
+                                            </div>
+
+                                        </div>
+                                        <div class="add-to-cart">
+                                            <a class="add-to-cart-btn" href="/Cart/AddItem?productId=@item.MaSP&quantity=1"><i class="fa fa-shopping-cart"></i> thêm vào giỏ hàng</a>
+                                        </div>
+                                    </div>
+                                }
+
+                                <!-- /product -->
+
+                            </div>
+                            <!-- /product -->
+                        </div>
+                        <div id="slick-nav-2" class="products-slick-nav"></div>
+                    </div>
+                    <!-- /tab -->
+                </div>
+            </div>
+        </div>
+        <!-- /Products tab & slick -->
+    </div>
+    <!-- /row -->
+</div>
+<!-- /container -->
+</div>
+<!-- /SECTION -->
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="section-title">
+                    <h4 class="title">Sản Phẩm Bán Chạy</h4>
+                    <div class="section-nav">
+                        <div id="slick-nav-3" class="products-slick-nav"></div>
+                    </div>
+                </div>
+
+                <div class="products-widget-slick" data-nav="#slick-nav-3">
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product07.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Samsung Galaxy Note 9 Pro</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product08.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop Asus ZenBook UX3765</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product09.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Máy ảnh Rekam Presto 714</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product01.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop Dell Vostro 3650</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product02.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Tai Nghe Sony</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product03.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop HP ElitBook 850</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xs-6">
+                <div class="section-title">
+                    <h4 class="title">Sản Phẩm Bán Chạy</h4>
+                    <div class="section-nav">
+                        <div id="slick-nav-4" class="products-slick-nav"></div>
+                    </div>
+                </div>
+
+                <div class="products-widget-slick" data-nav="#slick-nav-4">
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product04.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Máy Tính Bảng Sony G450</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product05.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Tai Nghe Sony MX170</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product06.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop Gaming MSI MX3450</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product07.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">SamSung Galaxy Note 9 Pro</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product08.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop ASUS ZenBook UX3765 </a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product09.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Máy ảnh Rakam Presto 714</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix visible-sm visible-xs"></div>
+
+            <div class="col-md-4 col-xs-6">
+                <div class="section-title">
+                    <h4 class="title">Sản Phẩm Bán Chạy</h4>
+                    <div class="section-nav">
+                        <div id="slick-nav-5" class="products-slick-nav"></div>
+                    </div>
+                </div>
+
+                <div class="products-widget-slick" data-nav="#slick-nav-5">
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product01.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop Dell Vostro 3450</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product02.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Tai Nghe Sony MX170</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product03.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop HP ElitBook 850</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+
+                    <div>
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product04.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Máy tính Bảng Sony G450</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product05.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Tai Nghe EricSon 320</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- /product widget -->
+                        <!-- product widget -->
+                        <div class="product-widget">
+                            <div class="product-img">
+                                <img src="~/Content/img/product06.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-Sản Phẩm">Sản Phẩm</p>
+                                <h3 class="product-name"><a href="#">Laptop Gaming MSI L430</a></h3>
+                                <h4 class="product-price">7.500.000 đ <del class="product-old-price">8.999.000 đ</del></h4>
+                            </div>
+                        </div>
+                        <!-- product widget -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
