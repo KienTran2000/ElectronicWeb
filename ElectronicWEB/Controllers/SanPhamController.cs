@@ -50,9 +50,12 @@ namespace ElectronicWEB.Controllers
             return View();
         }
 
-        // POST: SanPham/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="sANPHAM"></param>
+       /// <param name="UploadImage"></param>
+       /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MaSP,TenSP,Gia,NgaySX,TinhTrang,Photo,MaLH,MaHSX")] SANPHAM sANPHAM, HttpPostedFileBase UploadImage)
@@ -67,17 +70,12 @@ namespace ElectronicWEB.Controllers
                         UploadImage.SaveAs(Server.MapPath("/") + "/Content/" + UploadImage.FileName);
                         sANPHAM.Photo = UploadImage.FileName;
                     }
+                }
 
-                    //else
-                    //    return View();
-                }
-                else
-                {
-                    
-                    return View();
-                }
                 db.SANPHAMs.Add(sANPHAM);
                 db.SaveChanges();
+
+                TempData["message"] = "Created successfully.";
                 return RedirectToAction("Index");
             }
 
@@ -87,7 +85,11 @@ namespace ElectronicWEB.Controllers
             return View(sANPHAM);
         }
 
-        // GET: SanPham/Edit/5
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -105,9 +107,12 @@ namespace ElectronicWEB.Controllers
             return View(sANPHAM);
         }
 
-        // POST: SanPham/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sANPHAM"></param>
+        /// <param name="UploadImage"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MaSP,TenSP,Gia,NgaySX,TinhTrang,MaLH,MaHSX")] SANPHAM sANPHAM, HttpPostedFileBase UploadImage)
@@ -117,19 +122,16 @@ namespace ElectronicWEB.Controllers
                 if (UploadImage != null)
                 {
                     if (UploadImage.ContentType == "image/jpg" || UploadImage.ContentType == "image/png" || UploadImage.ContentType == "image/jpeg")
-
                     {
                         UploadImage.SaveAs(Server.MapPath("/") + "/Content/" + UploadImage.FileName);
                         sANPHAM.Photo = UploadImage.FileName;
                     }
-
-                    else return View();
                 }
-                else
-                    
-                    return View();
+
                 db.Entry(sANPHAM).State = EntityState.Modified;
                 db.SaveChanges();
+
+                TempData["message"] = "Updated successfully.";
                 return RedirectToAction("Index");
             }
             ViewBag.MaSP = new SelectList(db.GIOHANGs, "MaSP", "MaSP", sANPHAM.MaSP);
@@ -158,10 +160,32 @@ namespace ElectronicWEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SANPHAM sANPHAM = db.SANPHAMs.Find(id);
-            db.SANPHAMs.Remove(sANPHAM);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                GIOHANG cart = db.GIOHANGs.Where(c => c.MaSP == id).FirstOrDefault();
+
+                if (cart != null)
+                    db.GIOHANGs.Remove(cart);
+
+                CHITIET_HOADON order = db.CHITIET_HOADON.Where(o => o.MaSP == id).FirstOrDefault();
+
+                if (order != null)
+                    db.CHITIET_HOADON.Remove(order);
+
+                SANPHAM product = db.SANPHAMs.Find(id);
+
+                db.SANPHAMs.Remove(product);
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception exception)
+            {
+                TempData["message"] = exception.Message;
+                TempData["type"] = "error";
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -172,6 +196,13 @@ namespace ElectronicWEB.Controllers
             }
             base.Dispose(disposing);
         }
+
+        /// <summary>
+        /// Tìm kiếm sản phẩm
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
         public ActionResult Search(int? page, string search)
         {
             if (page == null) page = 1;

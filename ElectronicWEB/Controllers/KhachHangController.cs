@@ -71,7 +71,13 @@ namespace ElectronicWEB.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             KHACHHANG kh = db.KHACHHANGs.Find(id);
+
+            CLIENT client = db.CLIENTS.Where(x => x.MaKH == id).FirstOrDefault();
+
+            db.CLIENTS.Remove(client);
+
             db.KHACHHANGs.Remove(kh);
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

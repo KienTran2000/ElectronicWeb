@@ -127,9 +127,17 @@ namespace ElectronicWEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+            ADMIN ad = db.ADMINS.Where(x => x.MaNV == id).FirstOrDefault();
+            if (ad != null)
+                db.ADMINS.Remove(ad);
+
             NHANVIEN nHANVIEN = db.NHANVIENs.Find(id);
+            
             db.NHANVIENs.Remove(nHANVIEN);
+
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

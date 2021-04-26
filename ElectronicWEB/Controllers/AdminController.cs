@@ -49,6 +49,7 @@ namespace ElectronicWEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             ADMIN ad = db.ADMINS.Find(id);
             db.ADMINS.Remove(ad);
             db.SaveChanges();

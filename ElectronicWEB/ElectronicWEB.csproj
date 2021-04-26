@@ -201,6 +201,9 @@
     <Content Include="Content\img\shop01.png" />
     <Content Include="Content\img\shop02.png" />
     <Content Include="Content\img\shop03.png" />
+    <Content Include="Content\img\test_logo.png" />
+    <Content Include="Content\img\test_logo2.png" />
+    <Content Include="Content\img\test_logo_3.png" />
     <Content Include="Content\img\user1-128x128.jpg" />
     <Content Include="Content\img\user2-160x160.jpg" />
     <Content Include="Content\img\user3-128x128.jpg" />
@@ -209,6 +212,7 @@
     <Content Include="Content\img\user6-128x128.jpg" />
     <Content Include="Content\img\user7-128x128.jpg" />
     <Content Include="Content\img\user8-128x128.jpg" />
+    <Content Include="Content\img\user9-128x128.jpg" />
     <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery-jvectormap.css" />
     <Content Include="Content\materialdesignicons.min.css" />
@@ -274,6 +278,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\morris.min.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\nouislider.min.js" />
     <Content Include="Scripts\off-canvas.js" />
     <Content Include="Scripts\raphael.min.js" />
