@@ -49,7 +49,14 @@
                 </ul>
                 <ul class="header-links pull-right">
                     <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li>
-                    <li><a href="/Home/Login"><i class="fa fa-user-o"></i> Tải Khoản Của Tôi</a></li>
+                    @if (Session["client"] != null)
+                    {
+                         <li><a href="javascript:void(0)"><i class="fa fa-user-o"></i> @Session["client"]</a></li>
+                    }
+                    else 
+                    {
+                        <li><a href="/Home/Login"><i class="fa fa-user-o"></i> Tài khoản của tôi</a></li>
+                    }
                 </ul>
             </div>
         </div>
@@ -75,18 +82,30 @@
                             @*<form action="/Home/Search">
             <input type="text" class="input" placeholder="Tìm kiếm ở đây">
             <button type="submit" class="search-btn">Tìm Kiếm</button>
-        </form>*@
-                            <form action="/Home/Search">
-                                <select class="input-select">
-                                    <option value="0">Sản Phẩm</option>
-                                    <option value="1">Laptop</option>
-                                    <option value="1">Smartphone</option>
-                                    <option value="1">Camera</option>
-                                    <option value="1">Phụ Kiện</option>
+        </form>*@ 
+                            <form id="formSearchProduct" action="/Home/Search">
+                                <select class="input-select" id="product-type">
+                                    <option value>Sản Phẩm</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Smartphone">Smartphone</option>
+                                    <option value="Camera">Camera</option>
+                                    <option value="Phụ Kiện">Phụ Kiện</option>
                                 </select>
                                 <input placeholder="Nhập sản phẩm ..." type="text" name="search" class="input" />
-                                <button type="submit" class="search-btn">Tìm kiếm</button>
+                                <button type="button" class="search-btn" id="btn-search-product">Tìm kiếm</button>
                             </form>
+
+                            @*<select class="input-select" id="category">
+                                <option value="0">Sản Phẩm</option>
+                                <option value="1">Laptop</option>
+                                <option value="1">Smartphone</option>
+                                <option value="1">Camera</option>
+                                <option value="1">Phụ Kiện</option>
+                            </select>
+                            <input placeholder="Nhập sản phẩm ..." type="text" name="search" id="product-name" class="input" />
+                            <button class="search-btn" id="btn-search-product">Tìm kiếm</button>*@
+
+
                         </div>
                     </div>
                     <!-- /SEARCH BAR -->
@@ -192,6 +211,7 @@
     <script src="~/Scripts/nouislider.min.js"></script>
     <script src="~/Scripts/jquery.zoom.min.js"></script>
     <script src="~/Scripts/main.js"></script>
+
     @RenderSection("jsFooter", required: false)
 </body>
 </html>

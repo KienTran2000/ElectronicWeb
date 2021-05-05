@@ -16,14 +16,19 @@ namespace ElectronicWEB.Controllers
         private DienTuModel db = new DienTuModel();
 
         // GET: SanPham
-        public ActionResult Index(int? page)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public ActionResult Index(int? page)//? co the co gia tri null hoa khong
         {
             if (page == null) page = 1;
             var sANPHAMs = (from l in db.SANPHAMs
                             select l).OrderBy(x => x.MaSP);
             int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(sANPHAMs.ToPagedList(pageNumber, pageSize));
+
+            return View(sANPHAMs.ToPagedList((int)page, pageSize));
         }
 
         // GET: SanPham/Details/5
@@ -51,7 +56,7 @@ namespace ElectronicWEB.Controllers
         }
 
        /// <summary>
-       /// 
+       /// Create a new resource (method)
        /// </summary>
        /// <param name="sANPHAM"></param>
        /// <param name="UploadImage"></param>
@@ -86,21 +91,21 @@ namespace ElectronicWEB.Controllers
         }
 
        /// <summary>
-       /// 
+       /// Get resource info
        /// </summary>
        /// <param name="id"></param>
        /// <returns></returns>
+       [HttpGet]
         public ActionResult Edit(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             SANPHAM sANPHAM = db.SANPHAMs.Find(id);
+
             if (sANPHAM == null)
-            {
                 return HttpNotFound();
-            }
+
             ViewBag.MaSP = new SelectList(db.GIOHANGs, "MaSP", "MaSP", sANPHAM.MaSP);
             ViewBag.MaHSX = new SelectList(db.HANG_SX, "MaHSX", "TenHSX", sANPHAM.MaHSX);
             ViewBag.MaLH = new SelectList(db.LOAIHANGs, "MaLH", "TenLH", sANPHAM.MaLH);
@@ -108,7 +113,7 @@ namespace ElectronicWEB.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Update a resource
         /// </summary>
         /// <param name="sANPHAM"></param>
         /// <param name="UploadImage"></param>
@@ -140,6 +145,11 @@ namespace ElectronicWEB.Controllers
             return View(sANPHAM);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: SanPham/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -156,6 +166,11 @@ namespace ElectronicWEB.Controllers
         }
 
         // POST: SanPham/Delete/5
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -188,6 +203,10 @@ namespace ElectronicWEB.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Duong Electronic</title>
+    <title>KienTran Electronic</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -42,13 +42,20 @@
         <div id="top-header">
             <div class="container">
                 <ul class="header-links pull-left">
-                    <li><a href="#"><i class="fa fa-phone"></i> 0387965252</a></li>
-                    <li><a href="#"><i class="fa fa-envelope-o"></i> duongtranelectronic@gmail.com</a></li>
+                    <li><a href="#"><i class="fa fa-phone"></i> 0386577800</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> ttk180600@gmail.com</a></li>
                     <li><a href="#"><i class="fa fa-map-marker"></i> 236 Hoàng Quốc Việt</a></li>
                 </ul>
                 <ul class="header-links pull-right">
                     <li><a href="#"><i class="fa fa-dollar"></i> VNĐ</a></li>
-                    <li><a href="/Home/Login"><i class="fa fa-user-o"></i> Tải Khoản Của Tôi</a></li>
+                    @if (Session["client"] != null)
+                    {
+                        <li><a href="javascript:void(0)"><i class="fa fa-user-o"></i> @Session["client"]</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/Home/Login"><i class="fa fa-user-o"></i> Tài khoản của tôi</a></li>
+                    }
                 </ul>
             </div>
         </div>
@@ -63,7 +70,7 @@
                     <div class="col-md-3">
                         <div class="header-logo">
                             <a href="/Home/Index" class="logo">
-                                <img src="~/Content/img/logo.png" alt="">
+                                <img src="~/Content/img/test_logo_3.png" alt="">
                             </a>
                         </div>
                     </div>
@@ -71,16 +78,20 @@
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form action="/Home/Search">
-                                <select class="input-select">
-                                    <option value="0">Sản Phẩm</option>
-                                    <option value="1">Laptop</option>
-                                    <option value="1">Smartphone</option>
-                                    <option value="1">Camera</option>
-                                    <option value="1">Phụ Kiện</option>
+                            <form id="formSearchProduct" action="@Url.Action("Search", "Home")">
+                                <select class="input-select" id="product-type">
+                                    <option value>Sản Phẩm</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Smartphone">Smartphone</option>
+                                    <option value="Camera">Camera</option>
+                                    <option value="Phụ Kiện">Phụ Kiện</option>
                                 </select>
                                 <input placeholder="Nhập sản phẩm ..." type="text" name="search" class="input" />
-                                <button type="submit" class="search-btn">Tìm kiếm</button>
+                                <button type="button" class="search-btn" id="btn-search-product">Tìm kiếm</button>
+
+                                <input type="hidden" name="min_price" id="min-price" value="0" />
+                                <input type="hidden" name="max_price" id="max-price" value="0" />
+                                <input type="hidden" name="type" id="type" value="" />
                             </form>
                         </div>
                     </div>
@@ -189,4 +200,24 @@
     @RenderSection("jsFooter", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+
+        $formSearchProduct = $("#formSearchProduct");
+
+        $(document).on("click", "#btn-search-product", function () {
+            let min_price = $("#price-min").val();
+            let max_price = $("#price-max").val();
+
+            let product_type = $("#product-type").val();
+
+            $formSearchProduct.find("#min-price").val(min_price);
+            $formSearchProduct.find("#max-price").val(max_price);
+            $formSearchProduct.find("#type").val(product_type);
+
+            $formSearchProduct.submit();
+        });
+    });
+</script>
 

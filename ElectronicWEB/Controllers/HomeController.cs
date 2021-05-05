@@ -12,7 +12,8 @@ namespace ElectronicWEB.Controllers
 {
     public class HomeController : Controller
     {
-        DienTuModel db = new DienTuModel();
+        readonly DienTuModel db = new DienTuModel();
+
         private const string CartSession = "CartSession";
         public ActionResult Index()
         {
@@ -33,40 +34,41 @@ namespace ElectronicWEB.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Admin()
         {
-            DienTuModel db = new DienTuModel();
-
             string us = Request.Form["us"];
             string mk = Request.Form["mk"];
 
-            foreach (var i in db.ADMINS)
+            #region admin login
+            var admin = db.ADMINS.Where(a => a.TenLOGIN.ToLower() == us.ToLower()).Where(a => a.MatKhau == mk).FirstOrDefault();
+            if (admin != null)
             {
-                if (i.TenLOGIN.ToString().Equals(us) && i.MatKhau.ToString().Equals(mk))
-                {
-                    Session["username"] = us;
-                    return View();
-                }
+                Session["username"] = us;
+                return View();
             }
+            #endregion
+
+            #region client login
+
+            var client = db.CLIENTS.Where(c => c.TenLOGIN.ToLower() == us.ToLower()).Where(c => c.MatKhau == mk).FirstOrDefault();
+            if (client != null)
+            {
+                Session["client"] = us;
+                return Redirect("/Home");
+            }
+
+            #endregion
+
             TempData["msg"] = "Tài khoản hoặc mật khẩu không chính xác !";
             return RedirectToAction("/Login");
-            //string us = Request.Form["us"];
-            //string mk = Request.Form["mk"];
-
-            //string u = "admin";
-            //string m = "admin";
-
-            //if (u.Equals(us) && m.Equals(mk))
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    TempData["msg"] = "Tài Khoản Hoặc Mật Khẩu Không Chính Xác";
-            //    return RedirectToAction("/Login");
-            //}
         }
+
+        
         public ActionResult DashBoard()
         {
             return View();
@@ -99,15 +101,32 @@ namespace ElectronicWEB.Controllers
 
             return PartialView(list);
         }
-        public ActionResult Search(int? page, string search)
+
+        /// <summary>
+        /// Tìm kiếm sản phẩm theo tên, giá
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="search"></param>
+        /// <param name="min_price"></param>
+        /// <param name="max_price"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Search(int? page, string search, float? min_price, float? max_price, string type = "")
         {
             if (page == null) page = 1;
             int pageSize = 5;
-            int pageNumber = (page ?? 1);
 
-            var lst = db.SANPHAMs.Include(lh => lh.LOAIHANG).Include(hsx => hsx.HANG_SX).Where(tsp => tsp.TenSP.Contains(search)).ToList();
+            var lst = db.SANPHAMs
+                .Include(lh => lh.LOAIHANG)
+                .Where(item => item.LOAIHANG.TenLH.ToLower() == type.ToLower())
+                .Include(hsx => hsx.HANG_SX)
+                .Where(tsp => tsp.TenSP.Contains(search))
+                .Where(p => p.Gia.Value >= min_price)
+                .Where(p => p.Gia.Value <= max_price)
+                .ToList();
 
-            return View("Categories", lst.ToPagedList(pageNumber, pageSize));
+
+            return View("Categories", lst.ToPagedList((int)page, pageSize));
         }
     }
 }
