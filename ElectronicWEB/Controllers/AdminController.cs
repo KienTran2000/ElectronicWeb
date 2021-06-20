@@ -14,6 +14,10 @@ namespace ElectronicWEB.Controllers
         DienTuModel db = new DienTuModel();
         public ActionResult Index()
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
             return View(db.ADMINS.ToList());
         }
         public ActionResult Create()
@@ -85,6 +89,11 @@ namespace ElectronicWEB.Controllers
                 return HttpNotFound();
             }
             return View(ad);
+        }
+        private bool IsAdminLogged()
+        {
+            var session = (string)Session["username"] ?? null;
+            return !string.IsNullOrEmpty(session);
         }
     }
 }

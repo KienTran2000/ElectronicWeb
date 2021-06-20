@@ -185,6 +185,9 @@
     <Content Include="Content\img\icons.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logo1.png" />
+    <Content Include="Content\img\logo2.1.png" />
+    <Content Include="Content\img\logo2.2.png" />
+    <Content Include="Content\img\logo2.png" />
     <Content Include="Content\img\photo1.png" />
     <Content Include="Content\img\photo2.png" />
     <Content Include="Content\img\photo3.jpg" />

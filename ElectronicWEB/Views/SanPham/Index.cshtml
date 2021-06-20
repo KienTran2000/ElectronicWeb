@@ -9,21 +9,57 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
+@{ 
+    IEnumerable<SelectListItem> categories = ViewData["MaLH"] as IEnumerable<SelectListItem>;
+}
 <h1 style="text-align:center">Danh Sách Sản Phẩm</h1>
 
 <div class="row align-content-center">
     <div class="col-12" style="text-align: center;">
-        <form action="/SanPham/Search" style="text-align: center;">
-            <input placeholder="Nhập sản phẩm ..." type="text" name="search" class="form-control" style="width: 30%; display: inline-block;" />
+        <form action="/SanPham/Search" style="text-align: left;margin-left:30px">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <label for="ddlLocations" style="padding-right:10px">Mã loại hàng:</label>
+                
+                        <select class="input-select" id="product-type" name="category" style="width:70%; boder-radius:5px; margin-left:30px;">
+                            <option value="Laptop">Laptop</option>
+                            <option value="Smartphone">Smartphone</option>
+                            <option value="Camera">Camera</option>
+                            <option value="Phụ Kiện">Phụ Kiện</option>
+                        </select>
+                    </div>
+                    <br />
+                    <div>
+                        <label for="product-name" style="padding-right:10px">Tên sản phẩm:</label>
+                        <input type="text" id="product-name" name="name" class="form-control" style="width: 70%; display: inline-block;margin-left:23px;border-radius:5px;" />
+                    </div>
+                    <br />
+                    <div>
+                        <label for="product-name" style="padding-right:10px">Giá sản phẩm từ:</label>
+                        <input placeholder="" type="number" name="min_price" id="min-price" class="form-control" style="width: 70%; display: inline-block;margin-left:10px;border-radius:5px;" />
+                    </div>
+                    <br />
+                    <div>
+                        <label for="product-name" style="padding-right:10px">Giá sản phẩm đến:</label>
+                        <input type="number" name="max_price" id="max_price" class="form-control" style="width: 70%; display: inline-block;border-radius:5px;" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+
+                </div>
+            </div>
         </form>
     </div>
 </div>
 
 <div class="row align-content-center">
-    <div class="col-6" style="text-align: center; margin-top: 12px;">
+    <div class="col-6" style="text-align: left; margin-top: 10px;">
         @*@Html.ActionLink("Thêm Mới", "Create")*@
-        <a href="@Url.Action("Create")" class="btn btn-primary">Thêm mới</a>
+        <a href="@Url.Action("Create")" class="btn btn-primary" style="margin-left:15px;">Thêm mới</a>
     </div>
 </div>
 <br />

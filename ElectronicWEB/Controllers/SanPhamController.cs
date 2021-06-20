@@ -21,12 +21,21 @@ namespace ElectronicWEB.Controllers
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        public ActionResult Index(int? page)//? co the co gia tri null hoa khong
+        public ActionResult Index(int? page, string name = null, int min_price = 0, int max_price = 0, string category = "")//? co the co gia tri null hoa khong
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var session = Session["username"];
+
             if (page == null) page = 1;
             var sANPHAMs = (from l in db.SANPHAMs
                             select l).OrderBy(x => x.MaSP);
             int pageSize = 3;
+
+            ViewData["MaLH"] = new SelectList(db.LOAIHANGs, "MaLH", "TenLH");
 
             return View(sANPHAMs.ToPagedList((int)page, pageSize));
         }
@@ -49,6 +58,11 @@ namespace ElectronicWEB.Controllers
         // GET: SanPham/Create
         public ActionResult Create()
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             ViewBag.MaSP = new SelectList(db.GIOHANGs, "MaSP", "MaSP");
             ViewBag.MaHSX = new SelectList(db.HANG_SX, "MaHSX", "TenHSX");
             ViewBag.MaLH = new SelectList(db.LOAIHANGs, "MaLH", "TenLH");
@@ -65,6 +79,11 @@ namespace ElectronicWEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MaSP,TenSP,Gia,NgaySX,TinhTrang,Photo,MaLH,MaHSX")] SANPHAM sANPHAM, HttpPostedFileBase UploadImage)
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             if (ModelState.IsValid)
             {
                 if (UploadImage != null)
@@ -98,6 +117,11 @@ namespace ElectronicWEB.Controllers
        [HttpGet]
         public ActionResult Edit(int? id)
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -222,15 +246,42 @@ namespace ElectronicWEB.Controllers
         /// <param name="page"></param>
         /// <param name="search"></param>
         /// <returns></returns>
-        public ActionResult Search(int? page, string search)
+        public ActionResult Search(int? page, string name = "", int? min_price = 0, int? max_price = 0, string category = "")
         {
             if (page == null) page = 1;
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
-            var lst = db.SANPHAMs.Include(lh => lh.LOAIHANG).Include(hsx => hsx.HANG_SX).Where(tsp => tsp.TenSP.Contains(search)).ToList();
+            var lst = db.SANPHAMs
+               .Include(lh => lh.LOAIHANG).Include(hsx => hsx.HANG_SX);
 
-            return View("Index", lst.ToPagedList(pageNumber, pageSize));
+            if (!string.IsNullOrEmpty(name))
+            {
+                lst = lst.Where(product => product.TenSP.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                lst = lst.Where(product => product.LOAIHANG.TenLH == category);
+            }
+
+            if (min_price > 0)
+            {
+                lst = lst.Where(product => product.Gia >= min_price);
+            }
+
+            if (max_price > 0)
+            {
+                lst = lst.Where(product => product.Gia <= max_price);
+            }
+
+            return View("Index", lst.OrderByDescending(product => product.MaSP).ToList().ToPagedList(pageNumber, pageSize));
+        }
+
+        private bool IsAdminLogged()
+        {
+            var session = (string)Session["username"] ?? null;
+            return !string.IsNullOrEmpty(session);
         }
     }
 }

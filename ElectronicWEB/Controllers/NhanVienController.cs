@@ -17,6 +17,11 @@ namespace ElectronicWEB.Controllers
         // GET: NHANVIENs
         public ActionResult Index()
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             var nHANVIENs = db.NHANVIENs.Include(n => n.ADMIN);
             return View(nHANVIENs.ToList());
         }
@@ -24,6 +29,11 @@ namespace ElectronicWEB.Controllers
         // GET: NHANVIENs/Details/5
         public ActionResult Details(int? id)
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,6 +49,11 @@ namespace ElectronicWEB.Controllers
         // GET: NHANVIENs/Create
         public ActionResult Create()
         {
+            if (!IsAdminLogged())
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             ViewBag.MaNV = new SelectList(db.ADMINS, "MaNV", "TenLOGIN");
             return View();
         }
@@ -148,6 +163,12 @@ namespace ElectronicWEB.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool IsAdminLogged()
+        {
+            var session = (string)Session["username"] ?? null;
+            return !string.IsNullOrEmpty(session);
         }
     }
 }

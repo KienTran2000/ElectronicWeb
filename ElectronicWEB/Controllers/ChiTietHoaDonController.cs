@@ -20,7 +20,5 @@ namespace ElectronicWEB.Controllers
             var cHITIET_HOADON = db.CHITIET_HOADON.Include(c => c.HOADON).Include(c => c.SANPHAM);
             return View(cHITIET_HOADON.ToList());
         }
-
-        
     }
 }

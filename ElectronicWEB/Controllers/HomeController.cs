@@ -49,6 +49,7 @@ namespace ElectronicWEB.Controllers
             if (admin != null)
             {
                 Session["username"] = us;
+                HttpContext.Session["username"] = us;
                 return View();
             }
             #endregion
@@ -116,17 +117,40 @@ namespace ElectronicWEB.Controllers
             if (page == null) page = 1;
             int pageSize = 5;
 
+            //var lst = db.SANPHAMs
+            //    .Include(lh => lh.LOAIHANG)
+            //    .Where(item => item.LOAIHANG.TenLH.ToLower() == type.ToLower())
+            //    .Include(hsx => hsx.HANG_SX)
+            //    .Where(tsp => tsp.TenSP.Contains(search))
+            //    .Where(p => p.Gia.Value >= min_price)
+            //    .Where(p => p.Gia.Value <= max_price)
+            //    .ToList();
+
+
             var lst = db.SANPHAMs
-                .Include(lh => lh.LOAIHANG)
-                .Where(item => item.LOAIHANG.TenLH.ToLower() == type.ToLower())
-                .Include(hsx => hsx.HANG_SX)
-                .Where(tsp => tsp.TenSP.Contains(search))
-                .Where(p => p.Gia.Value >= min_price)
-                .Where(p => p.Gia.Value <= max_price)
-                .ToList();
+              .Include(lh => lh.LOAIHANG).Include(hsx => hsx.HANG_SX);
 
+            if (!string.IsNullOrEmpty(search))
+            {
+                lst = lst.Where(product => product.TenSP.Contains(search));
+            }
 
-            return View("Categories", lst.ToPagedList((int)page, pageSize));
+            if (!string.IsNullOrEmpty(type))
+            {
+                lst = lst.Where(product => product.LOAIHANG.TenLH == type);
+            }
+
+            if (min_price > 0)
+            {
+                lst = lst.Where(product => product.Gia >= min_price);
+            }
+
+            if (max_price > 0)
+            {
+                lst = lst.Where(product => product.Gia <= max_price);
+            }
+
+            return View("Categories", lst.OrderByDescending(product => product.MaSP).ToPagedList((int)page, pageSize));
         }
     }
 }
